@@ -83,11 +83,15 @@ class _MainScreenState extends State<MainScreen> {
         scheme: 'org.traccar.manager',
         host: redirectSegments.first,
         path: '/${redirectSegments.skip(1).join('/')}',
-        queryParameters: originalRedirect.queryParameters.isEmpty ? null : originalRedirect.queryParameters,
+        queryParameters:
+            originalRedirect.queryParameters.isEmpty ? null : originalRedirect.queryParameters,
       );
       final updatedQueryParameters = Map<String, String>.from(uri.queryParameters)
         ..['redirect_uri'] = updatedRedirect.toString();
-      await launchUrl(uri.replace(queryParameters: updatedQueryParameters), mode: LaunchMode.externalApplication);
+      await launchUrl(
+        uri.replace(queryParameters: updatedQueryParameters),
+        mode: LaunchMode.externalApplication,
+      );
     } catch (e) {
       developer.log('Failed to launch authorize request', error: e);
     }
@@ -100,7 +104,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   String _getUrl() {
-    return _preferences.getString(_urlKey) ?? 'https://demo.traccar.org';
+    return 'https://gps.uniguard.co.id';
   }
 
   bool _isDownloadable(Uri uri) {
@@ -109,9 +113,10 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<void> _shareFile(String fileName, Uint8List bytes) async {
-    final directory = Platform.isAndroid
-      ? await getExternalStorageDirectory()
-      : await getApplicationDocumentsDirectory();
+    final directory =
+        Platform.isAndroid
+            ? await getExternalStorageDirectory()
+            : await getApplicationDocumentsDirectory();
     final file = File('${directory!.path}/$fileName');
     await file.writeAsBytes(bytes);
     await SharePlus.instance.share(ShareParams(files: [XFile(file.path)]));
@@ -142,10 +147,13 @@ class _MainScreenState extends State<MainScreen> {
 
   Future<void> _initWebView() async {
     _preferences = await SharedPreferencesWithCache.create(
-      sharedPreferencesOptions: Platform.isAndroid
-        ? SharedPreferencesAsyncAndroidOptions(backend: SharedPreferencesAndroidBackendLibrary.SharedPreferences)
-        : SharedPreferencesOptions(),
-      cacheOptions: SharedPreferencesWithCacheOptions(allowList: {'url'}),
+      sharedPreferencesOptions:
+          Platform.isAndroid
+              ? SharedPreferencesAsyncAndroidOptions(
+                backend: SharedPreferencesAndroidBackendLibrary.SharedPreferences,
+              )
+              : SharedPreferencesOptions(),
+      cacheOptions: SharedPreferencesWithCacheOptions(allowList: {}), // Kosongkan allowList
     );
 
     var url = _getUrl();
@@ -181,8 +189,12 @@ class _MainScreenState extends State<MainScreen> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       final notification = message.notification;
       if (notification != null) {
-        _controller?.evaluateJavascript(source: "handleNativeNotification?.(${jsonEncode(message.toMap())})");
-        messengerKey.currentState?.showSnackBar(SnackBar(content: Text(notification.body ?? 'Unknown')));
+        _controller?.evaluateJavascript(
+          source: "handleNativeNotification?.(${jsonEncode(message.toMap())})",
+        );
+        messengerKey.currentState?.showSnackBar(
+          SnackBar(content: Text(notification.body ?? 'Unknown')),
+        );
       }
     });
   }
@@ -197,7 +209,9 @@ class _MainScreenState extends State<MainScreen> {
         try {
           final notificationToken = await _messaging.getToken();
           if (notificationToken != null) {
-            _controller?.evaluateJavascript(source: "updateNotificationToken?.('$notificationToken')");
+            _controller?.evaluateJavascript(
+              source: "updateNotificationToken?.('$notificationToken')",
+            );
           }
         } catch (e) {
           developer.log('Failed to get notification token', error: e);
@@ -217,11 +231,11 @@ class _MainScreenState extends State<MainScreen> {
         } catch (e) {
           developer.log('Failed to save downloaded file', error: e);
         }
-      case 'server':
-        final url = parts[1];
-        await _loginTokenStore.delete();
-        await _preferences.setString(_urlKey, url);
-        await _loadUrl(Uri.parse(url));
+      // case 'server':
+      //   final url = parts[1];
+      //   await _loginTokenStore.delete();
+      //   await _preferences.setString(_urlKey, url);
+      //   await _loadUrl(Uri.parse(url));
     }
   }
 
@@ -246,11 +260,8 @@ class _MainScreenState extends State<MainScreen> {
       return ErrorScreen(
         error: _loadingError!,
         url: _getUrl(),
-        onUrlSubmitted: (url) async {
-          await _loginTokenStore.delete();
-          await _preferences.setString(_urlKey, url);
+        onRetry: () {
           setState(() {
-            _initialUrl = url;
             _loadingError = null;
             _controller = null;
             _controllerReady = false;
@@ -342,7 +353,12 @@ class _MainScreenState extends State<MainScreen> {
                 return NavigationActionPolicy.ALLOW;
               }
               final uri = Uri.parse(target.toString());
-              if (['response_type', 'client_id', 'redirect_uri', 'scope'].every(uri.queryParameters.containsKey)) {
+              if ([
+                'response_type',
+                'client_id',
+                'redirect_uri',
+                'scope',
+              ].every(uri.queryParameters.containsKey)) {
                 _launchAuthorizeRequest(uri);
                 return NavigationActionPolicy.CANCEL;
               }
@@ -362,14 +378,14 @@ class _MainScreenState extends State<MainScreen> {
             },
             onReceivedError: (controller, request, error) {
               if (request.isForMainFrame == true) {
-                final isInterruptedFrameLoad = Platform.isIOS &&
+                final isInterruptedFrameLoad =
+                    Platform.isIOS &&
                     error.description.toLowerCase().contains('frame load interrupted');
                 if (error.type == WebResourceErrorType.CANCELLED || isInterruptedFrameLoad) {
                   return;
                 }
-                final errorMessage = error.description.isNotEmpty
-                  ? error.description
-                  : error.type.toString();
+                final errorMessage =
+                    error.description.isNotEmpty ? error.description : error.type.toString();
                 setState(() => _loadingError = errorMessage);
               }
             },
@@ -402,9 +418,7 @@ class _MainScreenState extends State<MainScreen> {
               }
               return PermissionResponse(
                 resources: request.resources,
-                action: allGranted
-                  ? PermissionResponseAction.GRANT
-                  : PermissionResponseAction.DENY,
+                action: allGranted ? PermissionResponseAction.GRANT : PermissionResponseAction.DENY,
               );
             },
           ),

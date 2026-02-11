@@ -1,35 +1,26 @@
 {
   "project_info": {
-    "project_number": "847296525014",
-    "firebase_url": "https://traccar-manager-app.firebaseio.com",
-    "project_id": "traccar-manager-app",
-    "storage_bucket": "traccar-manager-app.appspot.com"
+    "project_number": "367679081227",
+    "project_id": "gps-traccar-e9a89",
+    "storage_bucket": "gps-traccar-e9a89.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:847296525014:android:ddfd572332cea794",
+        "mobilesdk_app_id": "1:367679081227:android:46b85371a130657895300e",
         "android_client_info": {
-          "package_name": "org.traccar.manager"
+          "package_name": "com.uniguard.gps"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAAg2esrXqGG-_6TkPvpIfc3RlC2xFOysA"
+          "current_key": "AIzaSyCuLqEuuLx_Xi_PCzHuXdX_meEP4LtfMN4"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "847296525014-8d6vg8a08lfk1mp8j6mbgv96gq3n7cob.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "org.traccar.TraccarManager"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

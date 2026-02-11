@@ -50,23 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAAg2esrXqGG-_6TkPvpIfc3RlC2xFOysA',
-    appId: '1:847296525014:android:ddfd572332cea794',
-    messagingSenderId: '847296525014',
-    projectId: 'traccar-manager-app',
-    databaseURL: 'https://traccar-manager-app.firebaseio.com',
-    storageBucket: 'traccar-manager-app.appspot.com',
+    apiKey: 'AIzaSyCuLqEuuLx_Xi_PCzHuXdX_meEP4LtfMN4',
+    appId: '1:367679081227:android:46b85371a130657895300e',
+    messagingSenderId: '367679081227',
+    projectId: 'gps-traccar-e9a89',
+    storageBucket: 'gps-traccar-e9a89.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCa-dBF6DlD3CtKODjgrpoUjEwESsMttj8',
-    appId: '1:847296525014:ios:a9ee9ddfdb62f027',
-    messagingSenderId: '847296525014',
-    projectId: 'traccar-manager-app',
-    databaseURL: 'https://traccar-manager-app.firebaseio.com',
-    storageBucket: 'traccar-manager-app.appspot.com',
-    iosClientId: '847296525014-8d6vg8a08lfk1mp8j6mbgv96gq3n7cob.apps.googleusercontent.com',
-    iosBundleId: 'org.traccar.TraccarManager',
+    apiKey: 'AIzaSyB4ogd-Icu1rsbWpA0YmFgpiuqD17Epv7M',
+    appId: '1:367679081227:ios:446b1108fbb9ee8495300e',
+    messagingSenderId: '367679081227',
+    projectId: 'gps-traccar-e9a89',
+    storageBucket: 'gps-traccar-e9a89.firebasestorage.app',
+    iosBundleId: 'com.uniguard.GpsTraccarManager',
   );
 
 }

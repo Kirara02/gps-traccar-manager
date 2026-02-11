@@ -29,7 +29,7 @@ class _MainAppState extends State<MainApp> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await rateMyApp.init();
-      if (mounted && rateMyApp.shouldOpenDialog) {  
+      if (mounted && rateMyApp.shouldOpenDialog) {
         rateMyApp.showRateDialog(context);
       }
     });
@@ -40,23 +40,18 @@ class _MainAppState extends State<MainApp> {
     return MaterialApp(
       scaffoldMessengerKey: messengerKey,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-          brightness: Brightness.light,
-        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue, brightness: Brightness.light),
       ),
       darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-          brightness: Brightness.dark,
-        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue, brightness: Brightness.dark),
       ),
       home: MainScreen(),
       builder: (context, child) {
         final brightness = MediaQuery.of(context).platformBrightness;
         SystemChrome.setSystemUIOverlayStyle(
           SystemUiOverlayStyle(
-            statusBarIconBrightness: brightness == Brightness.dark ? Brightness.light : Brightness.dark,
+            statusBarIconBrightness:
+                brightness == Brightness.dark ? Brightness.light : Brightness.dark,
           ),
         );
         return child!;
